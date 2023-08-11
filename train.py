@@ -295,8 +295,8 @@ def load_pretrained_model(local_rank, model_path: str = ""):
     ) ### YOUR CODE HERE ###
 
     # Create LoRA model
-    model = LoraModelForCasualLM(model, lora_config)
-    #model = get_peft_model(model, lora_config) # Uncomment this line to use PEFT library instead of your implementation in `lora_layer.py`.
+    # model = LoraModelForCasualLM(model, lora_config)
+    model = get_peft_model(model, lora_config) # Uncomment this line to use PEFT library instead of your implementation in `lora_layer.py`.
     if _is_master_process():
         model.print_trainable_parameters()
 
@@ -312,13 +312,14 @@ if __name__ == "__main__":
     if os.environ.get("DEBUG"):
         data_path = 'test_data.json'
     else:
-        data_path = 'alpaca_data.json'
-        download_from_driver(path=DRIVER_DATA_PATH, location_path=data_path)
+        # data_path = 'alpaca_data.json'
+        # download_from_driver(path=DRIVER_DATA_PATH, location_path=data_path)
 
+        data_path = 'bactrian-vi-data.json'
     size_valid_set = 0.1
     max_length = 512
     num_epochs = 10
-    batch_size = 2
+    batch_size = 4
     gradient_accumulation_steps = 16
 
     learning_rate = 3e-4
